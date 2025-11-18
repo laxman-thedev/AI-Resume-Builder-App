@@ -5,6 +5,7 @@ import Layout from './pages/Layout'
 import Dashboard from './pages/dashboard'
 import ResumeBuilder from './pages/ResumeBuilder'
 import Preview from './pages/Preview'
+import Login from './pages/Login'
 
 const App = () => {
   return (
