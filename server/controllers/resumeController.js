@@ -72,3 +72,20 @@ export const getResumeByIdPublic = async (req, res) => {
     }
 }
 
+// controller for updating a resume
+// PUT: /api/resumes/update
+export const updateResume = async (req, res) => {
+    try {
+        const userId = req.userId;
+        const {resumeId, resumeData, removeBackground} = req.body;
+        const image = req.files;
+
+        let resumeDataCopy = JSON.parse(resumeData);
+        const resume = await Resume.findOneAndUpdate({userId, _id: resumeId}, resumeDataCopy, {new: true});
+
+        return res.status(200).json({ resume, message: "Resume updated successfully" });
+
+    } catch (error) {
+        return res.status(400).json({ message: error.message });
+    }
+}
