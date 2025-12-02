@@ -47,9 +47,28 @@ export const getResumeById = async (req, res) => {
         resume.__v = undefined;
         resume.createdAt = undefined;
         resume.updatedAt = undefined;
-        
+
         return res.status(200).json({ resume });
     } catch (error) {
         return res.status(400).json({ message: error.message });
     }
 }
+
+// get resume by id public
+// GET: /api/resumes/public
+export const getResumeByIdPublic = async (req, res) => {
+    try {
+        const {resumeId} = req.params;
+
+        const resume = await Resume.findOne({_id: resumeId, public: true});
+
+        if (!resume) {
+            return res.status(404).json({ message: "Resume not found" });
+        }
+
+        return res.status(200).json({ resume });
+    } catch (error) {
+        return res.status(400).json({ message: error.message });
+    }
+}
+
