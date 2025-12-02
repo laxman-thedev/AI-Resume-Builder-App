@@ -36,3 +36,27 @@ export const registerUser = async (req, res) => {
         return res.status(400).json({ message: error.message });
     }
 }
+
+//controller for user login
+// POST: /api/users/login
+export const loginUser = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ message: "User not found" });
+        }
+
+        if (!user.comparePassword(password)) {
+            return res.status(400).json({ message: "Invalid email or password" });
+        }
+
+        const token = generateToken(user._id);
+        user.password = undefined;
+
+        return res.status(200).json({ user, token, message: "Login successful" });
+    } catch (error) {
+        return res.status(400).json({ message: error.message });
+    }
+}
