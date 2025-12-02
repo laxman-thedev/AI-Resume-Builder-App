@@ -15,3 +15,18 @@ export const createResume = async (req, res) => {
         return res.status(400).json({ message: error.message });
     }
 }
+
+// controller for deleting a resume
+// DELETE: /api/resumes/delete
+export const deleteResume = async (req, res) => {
+    try {
+        const userId = req.userId;
+        const {resumeId} = req.params;
+
+        await Resume.findOneAndDelete({userId, _id: resumeId});
+
+        return res.status(200).json({ message: "Resume deleted successfully" });
+    } catch (error) {
+        return res.status(400).json({ message: error.message });
+    }
+}
