@@ -44,7 +44,7 @@ const ResumeSchema = new mongoose.Schema({
             position: {type: String},
             start_date: {type: String},
             end_date: {type: String},
-            desciption: {type: String},
+            description: {type: String},
             is_current: {type: Boolean},
             
         }
