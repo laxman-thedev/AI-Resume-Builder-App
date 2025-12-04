@@ -139,21 +139,24 @@ const ClassicTemplate = ({ data, accentColor }) => {
             )}
 
             {/* Skills */}
-            {data.skills && data.skills.length > 0 && (
+            {data.skills && (
                 <section className="mb-6">
                     <h2 className="text-xl font-semibold mb-4" style={{ color: accentColor }}>
                         CORE SKILLS
                     </h2>
 
                     <div className="flex gap-4 flex-wrap">
-                        {data.skills.map((skill, index) => (
-                            <div key={index} className="text-gray-700">
-                                • {skill}
-                            </div>
-                        ))}
+                        {(Array.isArray(data.skills) ? data.skills : data.skills.split(","))
+                            .map((skill, index) => (
+                                <div key={index} className="text-gray-700">
+                                    • {skill.trim()}
+                                </div>
+                            ))
+                        }
                     </div>
                 </section>
             )}
+
         </div>
     );
 }
