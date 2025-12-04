@@ -22,9 +22,10 @@ export const enhanceProfessionalSummary = async (req, res) => {
             ],
         });
 
-        const enhancedContent = response.data.choices[0].message.content;
+        const enhancedContent = response.choices[0].message.content;
         return res.status(200).json({ enhancedContent });
     } catch (error) {
+        console.log(error);
         return res.status(400).json({ message: error.message });
     }
 }
@@ -38,23 +39,33 @@ export const enhanceJobDescription = async (req, res) => {
         if (!userContent) {
             return res.status(400).json({ message: "No content provided" });
         }
+
         const response = await ai.chat.completions.create({
             model: process.env.OPENAI_MODEL,
             messages: [
-                { role: "system", content: "You are an expert in resume writing. Your task is to enhance the job description of a resume. The job description should be concise and compelling. You should also include any relevant skills and experiences that are not mentioned in the job description. Please ensure that the job description is no longer than 1-2 sentences. only return text no options or anything else." },
+                {
+                    role: "system",
+                    content:
+                        "You are an expert in resume writing. Enhance this job description so it becomes concise, impactful, and highlights measurable achievements. Return only the improved text—no bullet points, no explanation, no formatting."
+                },
                 {
                     role: "user",
-                    content: userContent,
-                },
-            ],
+                    content: userContent
+                }
+            ]
         });
 
-        const enhancedContent = response.data.choices[0].message.content;
+        // Corrected path ⬇
+        const enhancedContent = response.choices[0].message.content;
+
         return res.status(200).json({ enhancedContent });
+
     } catch (error) {
+        console.log(error);
         return res.status(400).json({ message: error.message });
     }
-}
+};
+
 
 // controller for uploading a resume to the database
 //POST: /api/ai/upload-resume
