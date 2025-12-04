@@ -103,7 +103,7 @@ const ModernTemplate = ({ data, accentColor }) => {
 
 						<div className="space-y-6">
 							{data.project.map((p, index) => (
-								<div key={index} className="relative pl-6 border-l border-gray-200" style={{borderLeftColor: accentColor}}>
+								<div key={index} className="relative pl-6 border-l border-gray-200" style={{ borderLeftColor: accentColor }}>
 
 
 									<div className="flex justify-between items-start">
@@ -148,25 +148,30 @@ const ModernTemplate = ({ data, accentColor }) => {
 					)}
 
 					{/* Skills */}
-					{data.skills && data.skills.length > 0 && (
+					{data.skills && (
 						<section>
 							<h2 className="text-2xl font-light mb-4 pb-2 border-b border-gray-200">
 								Skills
 							</h2>
 
 							<div className="flex flex-wrap gap-2">
-								{data.skills.map((skill, index) => (
-									<span
-										key={index}
-										className="px-3 py-1 text-sm text-white rounded-full"
-										style={{ backgroundColor: accentColor }}
-									>
-										{skill}
-									</span>
-								))}
+								{(Array.isArray(data.skills)
+									? data.skills
+									: data.skills.split(/[,|\n]/)
+								)
+									.map((skill, index) => (
+										<span
+											key={index}
+											className="px-3 py-1 text-sm text-white rounded-full"
+											style={{ backgroundColor: accentColor }}
+										>
+											{skill.trim()}
+										</span>
+									))}
 							</div>
 						</section>
 					)}
+
 				</div>
 			</div>
 		</div>
