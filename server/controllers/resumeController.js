@@ -78,35 +78,43 @@ export const getResumeByIdPublic = async (req, res) => {
 export const updateResume = async (req, res) => {
     try {
         const userId = req.userId;
-        const { resumeId, resumeData, removeBackground } = req.body;
-        const image = req.files;
-        
-        let resumeDataCopy;
-        if(typeof resumeData === 'string') {
-            resumeDataCopy = await JSON.parse(resumeData);
-        }
-        else{
-            resumeDataCopy = structuredClone(resumeData);
-        }
+        const { resumeId, removeBackground } = req.body;
+        const file = req.file; // <-- corrected
 
-        if (image) {
-            const imageBufferData = fs.createReadStream(image.path);
+        let resumeDataCopy = typeof req.body.resumeData === "string"
+            ? JSON.parse(req.body.resumeData)
+            : structuredClone(req.body.resumeData);
+
+        // If user uploaded a new image → upload to cloud
+        if (file) {
+            const imageBufferData = fs.createReadStream(file.path);
 
             const response = await imageKit.files.upload({
                 file: imageBufferData,
-                fileName: 'resume.png',
-                folder: 'user-resumes',
+                fileName: `${userId}_resume.png`,
+                folder: "user-resumes",
                 transformation: {
-                    pre: 'w-300, h-300, fo-face, z-0.75' + (removeBackground ? ', e-bgremove' : ''),
+                    pre:
+                        "w-300,h-300,fo-face,z-0.75" +
+                        (removeBackground === "yes" ? ",e-bgremove" : "")
                 }
             });
-            resumeDataCopy.personal_info.image= response.url;
+
+            resumeDataCopy.personal_info.image = response.url;
         }
 
-        const resume = await Resume.findOneAndUpdate({ userId, _id: resumeId }, resumeDataCopy, { new: true });
-        return res.status(200).json({ resume, message: "Resume updated successfully" });
+        const updatedResume = await Resume.findOneAndUpdate(
+            { _id: resumeId, userId },
+            resumeDataCopy,
+            { new: true }
+        );
+
+        return res.status(200).json({
+            resume: updatedResume,
+            message: "Resume updated successfully"
+        });
 
     } catch (error) {
         return res.status(400).json({ message: error.message });
     }
-}
+};
