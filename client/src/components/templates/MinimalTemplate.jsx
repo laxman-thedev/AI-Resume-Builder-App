@@ -112,17 +112,27 @@ const MinimalTemplate = ({ data, accentColor }) => {
             )}
 
             {/* Skills */}
-            {data.skills && data.skills.length > 0 && (
+            {data.skills && (
                 <section>
-                    <h2 className="text-sm uppercase tracking-widest mb-6 font-medium" style={{ color: accentColor }}>
+                    <h2
+                        className="text-sm uppercase tracking-widest mb-6 font-medium"
+                        style={{ color: accentColor }}
+                    >
                         Skills
                     </h2>
 
                     <div className="text-gray-700">
-                        {data.skills.join(" • ")}
+                        {(Array.isArray(data.skills)
+                            ? data.skills
+                            : data.skills.split(",")
+                        )
+                            .map(skill => skill.trim())
+                            .join(" • ")
+                        }
                     </div>
                 </section>
             )}
+
         </div>
     );
 }
