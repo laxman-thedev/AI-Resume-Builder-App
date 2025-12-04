@@ -18,7 +18,7 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
                     {/* Image */}
                     {data.personal_info?.image && typeof data.personal_info.image === 'string' ? (
                         <div className="mb-6">
-                            <img src={data.personal_info.image} alt="Profile" className="w-32 h-32 object-cover rounded-full mx-auto" style={{ background: accentColor+'70' }} />
+                            <img src={data.personal_info.image} alt="Profile" className="w-32 h-32 object-cover rounded-full mx-auto" style={{ background: accentColor + '70' }} />
                         </div>
                     ) : (
                         data.personal_info?.image && typeof data.personal_info.image === 'object' ? (
@@ -91,18 +91,22 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
                     )}
 
                     {/* Skills */}
-                    {data.skills && data.skills.length > 0 && (
+                    {data.skills && (
                         <section>
                             <h2 className="text-sm font-semibold tracking-widest text-zinc-600 mb-3">
                                 SKILLS
                             </h2>
+
                             <ul className="space-y-1 text-sm">
-                                {data.skills.map((skill, index) => (
-                                    <li key={index}>{skill}</li>
-                                ))}
+                                {(Array.isArray(data.skills) ? data.skills : data.skills.split(","))
+                                    .map((skill, index) => (
+                                        <li key={index}>{skill.trim()}</li>
+                                    ))
+                                }
                             </ul>
                         </section>
                     )}
+
                 </aside>
 
                 {/* Right Content */}
