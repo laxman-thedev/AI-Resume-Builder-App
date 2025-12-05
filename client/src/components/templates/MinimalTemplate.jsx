@@ -122,10 +122,7 @@ const MinimalTemplate = ({ data, accentColor }) => {
                     </h2>
 
                     <div className="text-gray-700">
-                        {(Array.isArray(data.skills)
-                            ? data.skills
-                            : data.skills.split(",")
-                        )
+                        {data.skills
                             .map(skill => skill.trim())
                             .join(" • ")
                         }
