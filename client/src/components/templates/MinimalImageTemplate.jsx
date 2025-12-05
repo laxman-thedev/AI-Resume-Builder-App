@@ -98,7 +98,7 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
                             </h2>
 
                             <ul className="space-y-1 text-sm">
-                                {(Array.isArray(data.skills) ? data.skills : data.skills.split(","))
+                                {data.skills
                                     .map((skill, index) => (
                                         <li key={index}>{skill.trim()}</li>
                                     ))
