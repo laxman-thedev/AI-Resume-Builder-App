@@ -89,7 +89,7 @@ export const uploadResume = async (req, res) => {
                     default: ""
                 },
                 skills: {
-                    type: String
+                    type: [{type: String}],
                 },
                 personal_info: {
                     image: {type: String, default: ""},
