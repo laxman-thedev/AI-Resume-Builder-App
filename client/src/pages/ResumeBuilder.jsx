@@ -222,7 +222,7 @@ const ResumeBuilder = () => {
                             {
                                 activeSection.id === 'skills' && (
                                     <SkillsForm
-                                        data={resumeData.skills.split(', ')}
+                                        data={resumeData.skills}
                                         onChange={(data) => setResumeData(prev => ({ ...prev, skills: data }))}
                                     />
                                 )
