@@ -146,7 +146,7 @@ const ClassicTemplate = ({ data, accentColor }) => {
                     </h2>
 
                     <div className="flex gap-4 flex-wrap">
-                        {(Array.isArray(data.skills) ? data.skills : data.skills.split(","))
+                        {data.skills
                             .map((skill, index) => (
                                 <div key={index} className="text-gray-700">
                                     • {skill.trim()}
