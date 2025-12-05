@@ -155,10 +155,7 @@ const ModernTemplate = ({ data, accentColor }) => {
 							</h2>
 
 							<div className="flex flex-wrap gap-2">
-								{(Array.isArray(data.skills)
-									? data.skills
-									: data.skills.split(/[,|\n]/)
-								)
+								{data.skills
 									.map((skill, index) => (
 										<span
 											key={index}
