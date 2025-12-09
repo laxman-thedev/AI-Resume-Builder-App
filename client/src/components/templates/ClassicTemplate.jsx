@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, Linkedin, Globe } from "lucide-react";
+import { Mail, Phone, MapPin, Linkedin, Globe, Github, GlobeIcon } from "lucide-react";
 
 const ClassicTemplate = ({ data, accentColor }) => {
     const formatDate = (dateStr) => {
@@ -101,10 +101,20 @@ const ClassicTemplate = ({ data, accentColor }) => {
 
                     <ul className="space-y-3 ">
                         {data.project.map((proj, index) => (
-                            <div key={index} className="flex justify-between items-start border-l-3 border-gray-300 pl-6">
+                            <div key={index} className="flex flex-col justify-between items-start border-l-3 border-gray-300 pl-6">
                                 <div>
                                     <li className="font-semibold text-gray-800 ">{proj.name}</li>
                                     <p className="text-gray-600">{proj.description}</p>
+                                </div>
+                                <div className="flex gap-4 text-sm items-center">
+                                    <div className="flex items-center gap-1.5 underline cursor-pointer">
+                                        <Github className="size-3.5" style={{ color: accentColor }} /> 
+                                        Source code
+                                    </div>
+                                    <div className="flex items-center gap-1.5 underline cursor-pointer">
+                                        <GlobeIcon className="size-3.5" style={{ color: accentColor }} /> 
+                                        Live demo
+                                    </div>
                                 </div>
                             </div>
                         ))}
