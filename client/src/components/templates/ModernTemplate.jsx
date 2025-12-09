@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, Linkedin, Globe } from "lucide-react";
+import { Mail, Phone, MapPin, Linkedin, Globe, Github, GlobeIcon } from "lucide-react";
 
 const ModernTemplate = ({ data, accentColor }) => {
 	const formatDate = (dateStr) => {
@@ -116,6 +116,16 @@ const ModernTemplate = ({ data, accentColor }) => {
 											{p.description}
 										</div>
 									)}
+									<div className="flex gap-4 text-sm items-center">
+										<div className="flex items-center gap-1.5 underline cursor-pointer">
+											<Github className="size-3.5" style={{ color: accentColor }} />
+											Source code
+										</div>
+										<div className="flex items-center gap-1.5 underline cursor-pointer">
+											<GlobeIcon className="size-3.5" style={{ color: accentColor }} />
+											Live demo
+										</div>
+									</div>
 								</div>
 							))}
 						</div>
