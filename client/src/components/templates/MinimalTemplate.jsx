@@ -1,3 +1,4 @@
+import { Github, GlobeIcon } from "lucide-react";
 
 const MinimalTemplate = ({ data, accentColor }) => {
     const formatDate = (dateStr) => {
@@ -79,9 +80,21 @@ const MinimalTemplate = ({ data, accentColor }) => {
                             <div key={index} className="flex flex-col gap-2 justify-between items-baseline">
                                 <h3 className="text-lg font-medium ">{proj.name}</h3>
                                 <p className="text-gray-600">{proj.description}</p>
+                                <div className="flex gap-4 text-sm items-center">
+                                    <div className="flex items-center gap-1.5 underline cursor-pointer">
+                                        <Github className="size-3.5" style={{ color: accentColor }} />
+                                        Source code
+                                    </div>
+                                    <div className="flex items-center gap-1.5 underline cursor-pointer">
+                                        <GlobeIcon className="size-3.5" style={{ color: accentColor }} />
+                                        Live demo
+                                    </div>
+                                </div>
                             </div>
                         ))}
+
                     </div>
+
                 </section>
             )}
 
