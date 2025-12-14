@@ -7,7 +7,9 @@ const ProjectForm = ({ data, onChange }) => {
         const newProject = {
             name: "",
             type: "",
-            description: ""
+            description: "",
+            live_link: "",
+            source_code_link: ""
         };
         onChange([...data, newProject]);
     };
@@ -104,6 +106,8 @@ const ProjectForm = ({ data, onChange }) => {
                                     <input
                                         type="text"
                                         placeholder="Source code link (optional)"
+                                        value={project.source_code_link|| ""}
+                                        onChange={(e) => updateProject(index, "source_code_link", e.target.value)}
                                         className="
                                             flex-1 text-sm placeholder-gray-400
                                             border-none outline-none
@@ -125,6 +129,8 @@ const ProjectForm = ({ data, onChange }) => {
                                     <input
                                         type="text"
                                         placeholder="Live demo link (optional)"
+                                        value={project.live_link || ""}
+                                        onChange={(e) => updateProject(index, "live_link", e.target.value)}
                                         className="
                                             flex-1 text-sm placeholder-gray-400
                                             border-none outline-none
