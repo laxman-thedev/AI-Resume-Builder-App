@@ -53,7 +53,9 @@ const ResumeSchema = new mongoose.Schema({
         {
             name: {type: String},
             type: {type: String},
-            description: {type: String}
+            description: {type: String},
+            live_link: {type: String},
+            source_code_link: {type: String}
         }
     ],
     education: [
