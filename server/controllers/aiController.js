@@ -1,9 +1,20 @@
 import ai from "../configs/ai.js";
 import Resume from "../models/Resume.js";
 
+/*
+|--------------------------------------------------------------------------
+| AI Controller
+|--------------------------------------------------------------------------
+| Handles AI-powered resume enhancements and resume parsing
+*/
 
-//controller for enhancing a resume's professional summary
-//POST: /api/ai/enhance-pro-sum
+/*
+|--------------------------------------------------------------------------
+| Enhance Professional Summary
+|--------------------------------------------------------------------------
+| POST /api/ai/enhance-pro-sum
+| Improves the professional summary using AI
+*/
 export const enhanceProfessionalSummary = async (req, res) => {
     try {
         const { userContent } = req.body;
@@ -11,10 +22,15 @@ export const enhanceProfessionalSummary = async (req, res) => {
         if (!userContent) {
             return res.status(400).json({ message: "No content provided" });
         }
+
         const response = await ai.chat.completions.create({
             model: process.env.OPENAI_MODEL,
             messages: [
-                { role: "system", content: "You are an expert in resume writing. Your task is to enhance the professional summary of a resume. The summary should be concise and compelling. You should also include any relevant skills and experiences that are not mentioned in the summary. Please ensure that the job description is no longer than 1-2 sentences. only return text no options or anything else." },
+                {
+                    role: "system",
+                    content:
+                        "You are an expert in resume writing. Enhance the professional summary to be concise, compelling, and impactful. Return only the improved text."
+                },
                 {
                     role: "user",
                     content: userContent,
@@ -24,14 +40,20 @@ export const enhanceProfessionalSummary = async (req, res) => {
 
         const enhancedContent = response.choices[0].message.content;
         return res.status(200).json({ enhancedContent });
+
     } catch (error) {
         console.log(error);
         return res.status(400).json({ message: error.message });
     }
-}
+};
 
-// controller for enhancing a resume's job description
-//POST: /api/ai/enhance-job-desc
+/*
+|--------------------------------------------------------------------------
+| Enhance Job Description
+|--------------------------------------------------------------------------
+| POST /api/ai/enhance-job-desc
+| Improves job description with concise and measurable impact
+*/
 export const enhanceJobDescription = async (req, res) => {
     try {
         const { userContent } = req.body;
@@ -46,7 +68,7 @@ export const enhanceJobDescription = async (req, res) => {
                 {
                     role: "system",
                     content:
-                        "You are an expert in resume writing. Enhance this job description so it becomes concise, impactful, and highlights measurable achievements. Return only the improved text—no bullet points, no explanation, no formatting."
+                        "You are an expert in resume writing. Enhance this job description to be concise and impactful. Return only the improved text."
                 },
                 {
                     role: "user",
@@ -55,9 +77,7 @@ export const enhanceJobDescription = async (req, res) => {
             ]
         });
 
-        // Corrected path ⬇
         const enhancedContent = response.choices[0].message.content;
-
         return res.status(200).json({ enhancedContent });
 
     } catch (error) {
@@ -66,9 +86,13 @@ export const enhanceJobDescription = async (req, res) => {
     }
 };
 
-
-// controller for uploading a resume to the database
-//POST: /api/ai/upload-resume
+/*
+|--------------------------------------------------------------------------
+| Upload & Parse Resume
+|--------------------------------------------------------------------------
+| POST /api/ai/upload-resume
+| Extracts structured resume data from uploaded resume text
+*/
 export const uploadResume = async (req, res) => {
     try {
         const { resumeText, title } = req.body;
@@ -78,55 +102,31 @@ export const uploadResume = async (req, res) => {
             return res.status(400).json({ message: "No content provided" });
         }
 
-        const systemPrompt = 'Your are an expert AI Agent to extract data from resume.'
-        const userPrompt = `
-            extract data from this resume: ${resumeText}
+        const systemPrompt =
+            "You are an expert AI agent that extracts structured data from resumes.";
 
-            Provide data in the following JSON format with no additional text before or after: 
+        const userPrompt = `
+            Extract data from the following resume text and return ONLY valid JSON:
+
+            ${resumeText}
+
+            JSON structure:
             {
-                professional_summary: {
-                    type: String,
-                    default: ""
-                },
-                skills: {
-                    type: [{type: String}],
-                },
+                professional_summary: "",
+                skills: [],
                 personal_info: {
-                    image: {type: String, default: ""},
-                    full_name: {type: String, default: ""},
-                    profession: {type: String, default: ""},
-                    email: {type: String, default: ""},
-                    phone: {type: String, default: ""},
-                    location: {type: String, default: ""},
-                    linkedin: {type: String, default: ""},
-                    website: {type: String, default: ""}
+                    image: "",
+                    full_name: "",
+                    profession: "",
+                    email: "",
+                    phone: "",
+                    location: "",
+                    linkedin: "",
+                    website: ""
                 },
-                experience: [
-                    {
-                        company: {type: String},
-                        position: {type: String},
-                        start_date: {type: String},
-                        end_date: {type: String},
-                        description: {type: String},
-                        is_current: {type: Boolean}
-                    }
-                ],
-                project: [
-                    {
-                        name: {type: String},
-                        type: {type: String},
-                        description: {type: String}
-                    }
-                ],
-                education: [
-                    {
-                        institution: {type: String},
-                        degree: {type: String},
-                        field: {type: String},
-                        graduation_date: {type: String},
-                        gpa: {type: String}
-                    }
-                ]
+                experience: [],
+                project: [],
+                education: []
             }
         `;
 
@@ -134,21 +134,23 @@ export const uploadResume = async (req, res) => {
             model: process.env.OPENAI_MODEL,
             messages: [
                 { role: "system", content: systemPrompt },
-                {
-                    role: "user",
-                    content: userPrompt,
-                },
+                { role: "user", content: userPrompt }
             ],
-            response_format: { type: 'json_object' },
+            response_format: { type: "json_object" },
         });
 
-        const extractedData = response.choices[0].message.content;
-        const parsedData = JSON.parse(extractedData);
+        const parsedData = JSON.parse(response.choices[0].message.content);
 
-        const newResume = await Resume.create({ userId, title, ...parsedData });
+        const newResume = await Resume.create({
+            userId,
+            title,
+            ...parsedData
+        });
 
         return res.json({ resumeId: newResume._id });
+
     } catch (error) {
+        console.log(error);
         return res.status(400).json({ message: error.message });
     }
-}
+};
