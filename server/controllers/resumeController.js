@@ -2,8 +2,20 @@ import imageKit from "../configs/imageKit.js";
 import Resume from "../models/Resume.js";
 import fs from "fs";
 
-// controller for creating a new resume
-// POST: /api/resumes/create
+/*
+|--------------------------------------------------------------------------
+| Resume Controller
+|--------------------------------------------------------------------------
+| Handles CRUD operations for user resumes
+*/
+
+/*
+|--------------------------------------------------------------------------
+| Create Resume
+|--------------------------------------------------------------------------
+| POST /api/resumes/create
+| Creates a new resume for the logged-in user
+*/
 export const createResume = async (req, res) => {
     try {
         const userId = req.userId;
@@ -11,14 +23,22 @@ export const createResume = async (req, res) => {
 
         const newResume = await Resume.create({ title, userId });
 
-        return res.status(201).json({ resume: newResume, message: "Resume created successfully" });
+        return res.status(201).json({
+            resume: newResume,
+            message: "Resume created successfully"
+        });
     } catch (error) {
         return res.status(400).json({ message: error.message });
     }
-}
+};
 
-// controller for deleting a resume
-// DELETE: /api/resumes/delete
+/*
+|--------------------------------------------------------------------------
+| Delete Resume
+|--------------------------------------------------------------------------
+| DELETE /api/resumes/delete/:resumeId
+| Deletes a resume owned by the logged-in user
+*/
 export const deleteResume = async (req, res) => {
     try {
         const userId = req.userId;
@@ -30,10 +50,15 @@ export const deleteResume = async (req, res) => {
     } catch (error) {
         return res.status(400).json({ message: error.message });
     }
-}
+};
 
-// get user resume by id
-// GET: /api/resumes/get
+/*
+|--------------------------------------------------------------------------
+| Get Resume By ID (Private)
+|--------------------------------------------------------------------------
+| GET /api/resumes/get/:resumeId
+| Fetches a resume for the logged-in user
+*/
 export const getResumeById = async (req, res) => {
     try {
         const userId = req.userId;
@@ -45,6 +70,7 @@ export const getResumeById = async (req, res) => {
             return res.status(404).json({ message: "Resume not found" });
         }
 
+        // Remove unnecessary fields
         resume.__v = undefined;
         resume.createdAt = undefined;
         resume.updatedAt = undefined;
@@ -53,10 +79,15 @@ export const getResumeById = async (req, res) => {
     } catch (error) {
         return res.status(400).json({ message: error.message });
     }
-}
+};
 
-// get resume by id public
-// GET: /api/resumes/public
+/*
+|--------------------------------------------------------------------------
+| Get Resume By ID (Public)
+|--------------------------------------------------------------------------
+| GET /api/resumes/public/:resumeId
+| Fetches a publicly shared resume
+*/
 export const getResumeByIdPublic = async (req, res) => {
     try {
         const { resumeId } = req.params;
@@ -71,26 +102,33 @@ export const getResumeByIdPublic = async (req, res) => {
     } catch (error) {
         return res.status(400).json({ message: error.message });
     }
-}
+};
 
-// controller for updating a resume
-// PUT: /api/resumes/update
+/*
+|--------------------------------------------------------------------------
+| Update Resume
+|--------------------------------------------------------------------------
+| PUT /api/resumes/update
+| Updates resume content and uploads profile image if provided
+*/
 export const updateResume = async (req, res) => {
     try {
         const userId = req.userId;
         const { resumeId, removeBackground } = req.body;
-        const file = req.file; // <-- corrected
+        const file = req.file;
 
-        let resumeDataCopy = typeof req.body.resumeData === "string"
-            ? JSON.parse(req.body.resumeData)
-            : structuredClone(req.body.resumeData);
+        // Parse resume data safely
+        const resumeDataCopy =
+            typeof req.body.resumeData === "string"
+                ? JSON.parse(req.body.resumeData)
+                : structuredClone(req.body.resumeData);
 
-        // If user uploaded a new image → upload to cloud
+        // Upload profile image if provided
         if (file) {
-            const imageBufferData = fs.createReadStream(file.path);
+            const imageStream = fs.createReadStream(file.path);
 
             const response = await imageKit.files.upload({
-                file: imageBufferData,
+                file: imageStream,
                 fileName: `${userId}_resume.png`,
                 folder: "user-resumes",
                 transformation: {
@@ -113,7 +151,6 @@ export const updateResume = async (req, res) => {
             resume: updatedResume,
             message: "Resume updated successfully"
         });
-
     } catch (error) {
         return res.status(400).json({ message: error.message });
     }
