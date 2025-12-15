@@ -3,14 +3,23 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import Resume from "../models/Resume.js";
 
+/*
+|--------------------------------------------------------------------------
+| Utility: Generate JWT Token
+|--------------------------------------------------------------------------
+| Creates a signed JWT for authenticated users
+*/
 const generateToken = (userId) => {
-    const token = jwt.sign({ userId }, process.env.JWT_SECRET, {expiresIn: "7d"});
-    return token;
-}
+    return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: "7d" });
+};
 
-
-// controller for user registration
-// POST: /api/users/register
+/*
+|--------------------------------------------------------------------------
+| Register User
+|--------------------------------------------------------------------------
+| POST /api/users/register
+| Creates a new user account
+*/
 export const registerUser = async (req, res) => {
     try {
         const { name, email, password } = req.body;
@@ -19,27 +28,40 @@ export const registerUser = async (req, res) => {
             return res.status(400).json({ message: "Please provide all the fields" });
         }
 
-        const user = await User.findOne({ email });
-        if (user) {
+        // Check if user already exists
+        const userExists = await User.findOne({ email });
+        if (userExists) {
             return res.status(400).json({ message: "User already exists" });
         }
 
-        // create a new user
+        // Hash password and create user
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = await User.create({ name, email, password: hashedPassword });
+        const newUser = await User.create({
+            name,
+            email,
+            password: hashedPassword
+        });
 
         const token = generateToken(newUser._id);
         newUser.password = undefined;
 
-        return res.status(201).json({ user: newUser, token, message: "User registered successfully" });
-
+        return res.status(201).json({
+            user: newUser,
+            token,
+            message: "User registered successfully"
+        });
     } catch (error) {
         return res.status(400).json({ message: error.message });
     }
-}
+};
 
-//controller for user login
-// POST: /api/users/login
+/*
+|--------------------------------------------------------------------------
+| Login User
+|--------------------------------------------------------------------------
+| POST /api/users/login
+| Authenticates user and returns JWT token
+*/
 export const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -56,19 +78,28 @@ export const loginUser = async (req, res) => {
         const token = generateToken(user._id);
         user.password = undefined;
 
-        return res.status(200).json({ user, token, message: "Login successful" });
+        return res.status(200).json({
+            user,
+            token,
+            message: "Login successful"
+        });
     } catch (error) {
         return res.status(400).json({ message: error.message });
     }
-}
+};
 
-// controller for getting user by id
-// GET: /api/users/data
+/*
+|--------------------------------------------------------------------------
+| Get Logged-in User Data
+|--------------------------------------------------------------------------
+| GET /api/users/data
+| Returns authenticated user's profile
+*/
 export const getUserById = async (req, res) => {
     try {
         const userId = req.userId;
-        const user = await User.findById(userId);
 
+        const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -79,15 +110,20 @@ export const getUserById = async (req, res) => {
     } catch (error) {
         return res.status(400).json({ message: error.message });
     }
-}
+};
 
-// controller for getting user resumes
-// GET: /api/users/resumes
+/*
+|--------------------------------------------------------------------------
+| Get User Resumes
+|--------------------------------------------------------------------------
+| GET /api/users/resumes
+| Returns all resumes created by the user
+*/
 export const getUserResumes = async (req, res) => {
     try {
         const userId = req.userId;
-        const resumes = await Resume.find({userId});
 
+        const resumes = await Resume.find({ userId });
         if (!resumes) {
             return res.status(404).json({ message: "Resumes not found" });
         }
@@ -96,4 +132,4 @@ export const getUserResumes = async (req, res) => {
     } catch (error) {
         return res.status(400).json({ message: error.message });
     }
-}
+};
