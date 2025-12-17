@@ -1,31 +1,38 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');  
+/* Google font */
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+
+/* Tailwind base */
 @import "tailwindcss";
 
-*{
+/* Global font */
+* {
     font-family: "Outfit", sans-serif;
 }
 
-@layer base{
-    button{
+/* Base element styles */
+@layer base {
+    button {
         @apply cursor-pointer;
     }
-    input:not([type="checkbox"]){
+
+    input:not([type="checkbox"]) {
         @apply outline-none focus:ring border border-gray-300 focus:ring-blue-500 focus:border-blue-500 rounded-lg;
     }
-    textarea{
+
+    textarea {
         @apply outline-none focus:ring border border-gray-300 focus:ring-blue-500 focus:border-blue-500 rounded-lg resize-none;
     }
 }
 
+/* Print support: keep colors while printing */
 @media print {
-  /* Force browsers to print background colors */
-  * {
+    * {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
     }
 }
 
-
+/* Custom class for printable headers */
 @media print {
     .print-header {
         background-color: var(--print-accent) !important;
