@@ -127,65 +127,35 @@ const ModernTemplate = ({ data, accentColor }) => {
 					</section>
 				)}
 
-				{/* Projects */}
-				{data.project?.length > 0 && (
-					<section className="mb-8">
-						<h2 className="text-2xl font-light mb-4 pb-2 border-b border-gray-200">
-							Projects
-						</h2>
+				{/* Project Links */}
+				<div className="flex gap-4 text-sm items-center print:flex-col print:items-start">
 
-						<div className="space-y-6">
-							{data.project.map((p, index) => (
-								<div
-									key={index}
-									className="relative pl-6 border-l border-gray-200"
-									style={{ borderLeftColor: accentColor }}
-								>
+					{/* Source Code */}
+					{p.source_code_link && (
+						<a
+							href={formatLink(p.source_code_link)}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="underline text-blue-600 print:text-black"
+						>
+							Source code
+						</a>
+					)}
 
-									<h3 className="text-lg font-medium">{p.name}</h3>
+					{/* Live Demo */}
+					{p.live_link && (
+						<a
+							href={formatLink(p.live_link)}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="underline text-blue-600 print:text-black"
+						>
+							Live demo
+						</a>
+					)}
 
-									{p.description && (
-										<p className="text-gray-700 leading-relaxed text-sm mt-3">
-											{p.description}
-										</p>
-									)}
+				</div>
 
-									{/* Project Links */}
-									<div className="flex gap-4 text-sm items-center">
-
-										{/* GitHub */}
-										{p.source_code_link && (
-											<a
-												href={formatLink(p.source_code_link)}
-												target="_blank"
-												rel="noopener noreferrer"
-												className="flex items-center gap-1.5 underline cursor-pointer"
-											>
-												<Github className="size-3.5" style={{ color: accentColor }} />
-												Source code
-											</a>
-										)}
-
-										{/* Live demo */}
-										{p.live_link && (
-											<a
-												href={formatLink(p.live_link)}
-												target="_blank"
-												rel="noopener noreferrer"
-												className="flex items-center gap-1.5 underline cursor-pointer"
-											>
-												<GlobeIcon className="size-3.5" style={{ color: accentColor }} />
-												Live demo
-											</a>
-										)}
-
-									</div>
-
-								</div>
-							))}
-						</div>
-					</section>
-				)}
 
 				<div className="grid sm:grid-cols-2 gap-8">
 
