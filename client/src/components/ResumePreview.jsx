@@ -4,18 +4,20 @@ import MinimalTemplate from "./templates/MinimalTemplate";
 import MinimalImageTemplate from "./templates/MinimalImageTemplate";
 import ClassicTemplate from "./templates/ClassicTemplate";
 
+/**
+ * ResumePreview component renders the selected resume template with the provided data.
+ * It also includes print-specific styles to format the resume for printing.
+ */
 const ResumePreview = ({ data, template, accentColor, classes = "" }) => {
+    // Function to render the appropriate template based on the 'template' prop.
     const renderTemplate = () => {
         switch (template) {
             case "modern":
                 return <ModernTemplate data={data} accentColor={accentColor} />;
-
             case "minimal":
                 return <MinimalTemplate data={data} accentColor={accentColor} />;
-
             case "minimal-image":
                 return <MinimalImageTemplate data={data} accentColor={accentColor} />;
-
             default:
                 return <ClassicTemplate data={data} accentColor={accentColor} />;
         }

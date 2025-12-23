@@ -1,10 +1,11 @@
-import React from 'react'
 
 const Loader = () => {
     return (
+        // Container for the loader, centering it on the screen
         <div className='flex items-center justify-center h-screen'>
+            {/* The loader spinner element */}
             <div className='size-12 border-3 border-gray-400 border-t-transparent rounded-full animate-spin'>
-                
+                {/* This div itself forms the spinner */}
             </div>
         </div>
     )
