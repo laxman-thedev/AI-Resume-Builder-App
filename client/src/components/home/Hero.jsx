@@ -3,6 +3,12 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const Hero = () => {
+    /**
+     * Hero Component
+     * --------------
+     * Displays the main hero section of the home page, including the navigation bar,
+     * a compelling headline, call-to-action buttons, and logos of trusted brands.
+     */
 
     const [menuOpen, setMenuOpen] = React.useState(false);
 

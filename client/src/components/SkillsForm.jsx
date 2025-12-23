@@ -1,16 +1,25 @@
 import React, { useState } from "react";
 import { Plus, Sparkles, X } from "lucide-react";
 
+/**
+ * SkillsForm component for adding and managing a list of skills.
+ */
 const SkillsForm = ({ data, onChange }) => {
+    // State to hold the value of the new skill input field
     const [newSkill,  setNewSkill] = useState('')
     
+    /**
+     * Adds a new skill to the list if it's not empty and not already present.
+     */
     const addSkill = () => {
         if(newSkill.trim() && !data.includes(newSkill.trim())) {
             onChange([...data, newSkill.trim()])
             setNewSkill('')
         }
     }
-
+    /**
+     * Removes a skill at the specified index from the list.
+     */
     const removeSkill = (index) => {
         const updated = data.filter((_, i) => i !== index);
         onChange(updated);
@@ -25,11 +34,13 @@ const SkillsForm = ({ data, onChange }) => {
 
     return (
         <div className="space-y-4">
+            {/* Section Header */}
             <div>
                 <h3 className="flex items-center gap-2 text-lg font-semibold text-gray-900">Skills</h3>
                 <p className="text-sm text-gray-500">Add your technical and soft skills</p>
             </div>
 
+            {/* Input field and button for adding new skills */}
             <div className="flex gap-2">
                 <input type="text"
                     placeholder="Enter a skill"
@@ -43,6 +54,7 @@ const SkillsForm = ({ data, onChange }) => {
                 </button>
             </div>
 
+            {/* Display existing skills or an empty state message */}
             { data.length > 0 ? (
                 <div className="flex flex-wrap gap-2">
                     { data.map((skill, index)=>(
@@ -61,6 +73,7 @@ const SkillsForm = ({ data, onChange }) => {
                     <p className="text-sm">Click "Add Skill" to get started.</p>
                 </div>
             ) }
+            {/* Tip for adding skills */}
             <div className="bg-blue-50 p-3 rounded-lg">
                 <p className="text-sm text-blue-800"><strong>Tip: </strong>Add 8-12 relevant skills to highlight your expertise and make your resume stand out.</p>
             </div>

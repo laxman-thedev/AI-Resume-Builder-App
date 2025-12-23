@@ -4,32 +4,48 @@ import { ArrowLeftIcon, Loader } from 'lucide-react'
 import ResumePreview from '../components/ResumePreview'
 import api from '../configs/api'
 
+/**
+ * Preview component displays a public resume based on the resumeId from the URL parameters.
+ * It fetches the resume data from the API and renders it using the ResumePreview component.
+ * It also handles loading states and displays a "Resume not found" message if the resume cannot be loaded.
+ */
 const Preview = () => {
 
+    // Get resumeId from URL parameters
     const { resumeId } = useParams()
+    // State to store the fetched resume data
     const [resumeData, setResumeData] = useState(null)
+    // State to manage loading status
     const [isLoading, setIsLoading] = useState(true)
 
+    /**
+     * Fetches the public resume data from the API.
+     */
     const loadResume = async () => {
         try {
             const { data } = await api.get(`/api/resumes/public/${resumeId}`)
             setResumeData(data.resume)
         } catch (error) {
             console.log(error.message)
+            // Optionally, set resumeData to null or an error state to trigger the "not found" message
+            setResumeData(null);
         }
         finally {
             setIsLoading(false)
         }
     }
 
+    // Load resume data when the component mounts
     useEffect(() => {
         loadResume()
     }, [])
 
+    // Render the ResumePreview if resumeData is available
     return resumeData ? (
         <div className='bg-slate-100'>
             <div className='max-w-3xl mx-auto py-10'>
-                <ResumePreview data={resumeData} template={resumeData.template} accentColor={resumeData.accent_color} className='py-4 bg-white' />
+                {/* Render the ResumePreview component with fetched data */}
+                <ResumePreview data={resumeData} template={resumeData.template} accentColor={resumeData.accent_color} classes='py-4 bg-white' />
             </div>
         </div>
     ) : (
@@ -37,6 +53,7 @@ const Preview = () => {
             {isLoading ? <Loader /> : (
                 <div className='flex flex-col items-center justify-center
                 h-screen'>
+                    {/* Display message if resume is not found */}
                     <p className='text-center text-6xl text-slate-400 font-medium'>Resume not found!</p>
                     <a href="/" className='mt-6 bg-green-500 hover:bg-green-600 text-white rounded-full px-6 h-9 m-1 ring-offset-1 ring-1 ring-green-400 flex items-center transition-colors'>
                         <ArrowLeftIcon className='mr-2 size-4' />
