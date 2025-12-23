@@ -12,22 +12,22 @@ const Hero = () => {
 
     const [menuOpen, setMenuOpen] = React.useState(false);
 
-    const {user} = useSelector(state => state.auth)
+    const { user } = useSelector(state => state.auth)
 
     const logos = [
-        'https://saasly.prebuiltui.com/assets/companies-logo/instagram.svg',
-        'https://saasly.prebuiltui.com/assets/companies-logo/framer.svg',
-        'https://saasly.prebuiltui.com/assets/companies-logo/microsoft.svg',
-        'https://saasly.prebuiltui.com/assets/companies-logo/huawei.svg',
-        'https://saasly.prebuiltui.com/assets/companies-logo/walmart.svg',
-    ]
+        '/brands/instagram.svg',
+        '/brands/framer.svg',
+        '/brands/meta.svg',
+        '/brands/huawei.svg',
+        '/brands/replit.svg',
+    ];
 
     return (
         <>
             <div className="min-h-screen pb-20">
                 {/* Navbar */}
                 <nav className="z-50 flex items-center justify-between w-full py-4 px-6 md:px-16 lg:px-24 xl:px-40 text-sm">
-                    <a href="https://prebuiltui.com">
+                    <a href="/">
                         <img src="/logo.svg" alt="logo" className="h-11 w-auto" />
                     </a>
 
@@ -115,9 +115,27 @@ const Hero = () => {
 
                     <p className="py-6 text-slate-600 mt-14">Trusting by leading brands, including</p>
 
-                    <div className="flex flex-wrap justify-between max-sm:justify-center gap-6 max-w-3xl w-full mx-auto py-4" id="logo-container">
-                        {logos.map((logo, index) => <img key={index} src={logo} alt="logo" className="h-6 w-auto max-w-xs" />)}
+                    <div
+                        className="flex flex-wrap justify-between max-sm:justify-center gap-6 max-w-3xl w-1/2 mx-auto py-4"
+                        id="logo-container"
+                    >
+                        {logos.map((logo, index) => (
+                            <img
+                                key={index}
+                                src={logo}
+                                alt="brand logo"
+                                className="
+                                    h-6 w-auto max-w-xs
+                                    opacity-50
+                                    grayscale
+                                    transition-all duration-300
+                                    hover:opacity-100
+                                    hover:grayscale-0
+                                "
+                            />
+                        ))}
                     </div>
+
                 </div>
             </div>
             <style>
