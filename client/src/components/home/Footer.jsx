@@ -114,7 +114,7 @@ const Footer = () => {
                     </div>
 
                     {/* Copyright */}
-                    <p className="mt-3 text-center">Copyright © 2026 <a href="https://laxman-thedev.vercel.app" className='underline' >Laxman</a> resume</p>
+                    <p className="mt-3 text-center">Copyright © 2026 <a href={import.meta.env.VITE_AUTHOR_LINK} className='underline' >Laxman</a> resume</p>
                 </div>
             </footer>
         </>
