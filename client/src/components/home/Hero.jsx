@@ -58,7 +58,7 @@ const Hero = () => {
                 </nav>
 
                 {/* Mobile Menu */}
-                <div className={`fixed inset-0 z-[100] bg-black/40 text-black backdrop-blur flex flex-col items-center justify-center text-lg gap-8 md:hidden transition-transform duration-300 ${menuOpen ? "translate-x-0" : "-translate-x-full"}`} >
+                <div className={`fixed inset-0 z-100 bg-black/40 text-black backdrop-blur flex flex-col items-center justify-center text-lg gap-8 md:hidden transition-transform duration-300 ${menuOpen ? "translate-x-0" : "-translate-x-full"}`} >
                     <a href="#" className="text-white">Home</a>
                     <a href="#features" className="text-white">Features</a>
                     <a href="#testimonials" className="text-white">Testimonials</a>
@@ -96,7 +96,7 @@ const Hero = () => {
 
                     {/* Headline + CTA */}
                     <h1 className="text-5xl md:text-6xl font-semibold max-w-5xl text-center mt-4 md:leading-[70px]">
-                        Land your dream job with <span className=" bg-gradient-to-r from-green-700 to-green-600 bg-clip-text text-transparent text-nowrap">AI-Powered </span> Resumes.
+                        Land your dream job with <span className=" bg-linear-to-r from-green-700 to-green-600 bg-clip-text text-transparent text-nowrap">AI-Powered </span> Resumes.
                     </h1>
 
                     <p className="max-w-md text-center text-base my-7">Create, edit, and share your resumes with ease.</p>
@@ -116,7 +116,7 @@ const Hero = () => {
                     <p className="py-6 text-slate-600 mt-14">Trusting by leading brands, including</p>
 
                     <div
-                        className="flex flex-wrap justify-between max-sm:justify-center gap-6 max-w-3xl w-1/2 mx-auto py-4"
+                        className="flex flex-wrap justify-center max-sm:justify-center gap-3 sm:gap-10 max-w-3xl w-1/2 mx-auto py-4"
                         id="logo-container"
                     >
                         {logos.map((logo, index) => (
