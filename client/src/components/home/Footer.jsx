@@ -72,7 +72,7 @@ const Footer = () => {
 
                     {/* Footer tagline */}
                     <p className="max-w-60">
-                        Making every customer feel valued—no matter the size of your audience.
+                        Build smarter resumes with AI and get noticed by recruiters faster.
                     </p>
 
                     {/* Social media icons */}

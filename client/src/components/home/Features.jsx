@@ -24,9 +24,10 @@ const Features = () => {
 
             {/* Section title and description */}
             <Title
-                title='Build your resume'
-                description='Our AI-powered resume builder is easy to use and intuitive. Simply upload your resume and start customizing your profile.'
+                title="Build job-ready resumes in minutes"
+                description="Create, improve, and customize ATS-friendly resumes using AI. Upload your existing resume or start fresh and let AI do the hard work."
             />
+
 
             {/* Features layout */}
             <div className="flex flex-col md:flex-row items-center justify-center xl:-mt-10">
@@ -68,11 +69,12 @@ const Features = () => {
 
                             <div className="space-y-2">
                                 <h3 className="text-base font-semibold text-slate-700">
-                                    Real-Time Analytics
+                                    AI Resume Analysis
                                 </h3>
                                 <p className="text-sm text-slate-600 max-w-xs">
-                                    Get instant insights into your finances with live dashboards.
+                                    Instantly analyze your resume with AI and get smart suggestions to improve content, structure, and keywords.
                                 </p>
+
                             </div>
                         </div>
                     </div>
@@ -98,11 +100,12 @@ const Features = () => {
 
                             <div className="space-y-2">
                                 <h3 className="text-base font-semibold text-slate-700">
-                                    Bank-Grade Security
+                                    Easy Editing & Customization
                                 </h3>
                                 <p className="text-sm text-slate-600 max-w-xs">
-                                    End-to-end encryption, 2FA, compliance with GDPR standards.
+                                    Edit sections in real time, customize layouts, colors, and content to match your career goals.
                                 </p>
+
                             </div>
                         </div>
                     </div>
@@ -129,10 +132,10 @@ const Features = () => {
 
                             <div className="space-y-2">
                                 <h3 className="text-base font-semibold text-slate-700">
-                                    Customizable Reports
+                                    Download & Share Instantly
                                 </h3>
                                 <p className="text-sm text-slate-600 max-w-xs">
-                                    Export professional, audit-ready financial reports for tax or internal review.
+                                    Download your resume in high-quality PDF format and share it instantly with recruiters.
                                 </p>
                             </div>
                         </div>
