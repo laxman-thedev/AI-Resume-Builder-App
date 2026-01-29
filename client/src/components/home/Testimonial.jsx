@@ -69,7 +69,7 @@ const Testimonial = () => {
 
             {/* Testimonial text */}
             <p className="text-sm py-4 text-gray-800">
-                Radiant made undercutting all of our competitors an absolute breeze.
+                The AI suggestions completely transformed my resume. I started getting interview calls within a week.
             </p>
         </div>
     );
@@ -100,9 +100,10 @@ const Testimonial = () => {
                 </div>
 
                 <Title
-                    title="Don't just take our words"
-                    description="Hear from our satisfied customers about the benefits of using our AI-powered resume builder."
+                    title="Loved by job seekers worldwide"
+                    description="See how professionals, students, and developers use our AI resume builder to land interviews faster."
                 />
+
             </div>
 
             {/* First marquee row */}
